@@ -1,7 +1,7 @@
 import heapq
 
 def min_convenience_store_visits(N, stores, L, P):
-    stores.sort()  # 편의점을 위치 기준으로 오름차순 정렬
+    stores.sort()  # 편의점 위치 기준 오름차순
     
     heap = []  # 힙을 사용하여 포만감을 최대화하도록 편의점 정보를 저장
     refuel_count = 0  # 편의점 방문 횟수
@@ -30,7 +30,6 @@ def min_convenience_store_visits(N, stores, L, P):
     
     print(refuel_count)
 
-# 입력 받기
 N = int(input())
 stores = []
 for _ in range(N):
@@ -38,5 +37,4 @@ for _ in range(N):
     stores.append((a, b))
 L, P = map(int, input().split())
 
-# 최소 편의점 방문 횟수 계산
 min_convenience_store_visits(N, stores, L, P)
