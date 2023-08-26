@@ -1,16 +1,18 @@
-def min_moves_to_reach(dest, start):
-    moves = 0
-    
-    while start != dest:
-        if start < dest:
-            start += 3
-        else:
-            start -= 1
-        moves += 1
-    
-    return moves
+def count_digits(n):
+    digit_count = [0] * 10
 
-N, J = map(int, input().split())
+    for i in range(1, n + 1):
+        number = i
+        while number > 0:
+            digit = number % 10
+            digit_count[digit] += 1
+            number //= 10
+    
+    return digit_count
 
-moves = min_moves_to_reach(J, N)
-print(moves)
+N = int(input())
+
+result = count_digits(N)
+
+# 결과 출력
+print(*result)
