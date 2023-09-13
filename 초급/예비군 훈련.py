@@ -1,32 +1,28 @@
-# 입력값 파싱
-year, branch, mobilization, status = input().split()
+input_data = input().split()
 
-# 연차를 정수로 변환
-year = int(year)
+# 연차, 군별, 동원지정여부, 신분
+year = int(input_data[0])
+branch = input_data[1]
+call_up = input_data[2]
+rank = input_data[3]
 
-# 훈련 시간 계산 함수
-def calculate_training_time(year, branch, mobilization, status):
-    if status == "Private":
-        if year == 0 and mobilization == "N":
-            return 0
-        elif 1 <= year <= 4 and mobilization == "N":
-            if branch == "ROKA" or branch == "ROKN":
-                return 32
-            else:
-                return 28
-        elif 5 <= year <= 6 and mobilization == "N":
-            return 20
-    elif status == "Officer":
-        if year == 0 and mobilization == "N":
-            return 0
-        elif 1 <= year <= 6 and mobilization == "N":
-            return 28
+# 연간 훈련 시간 계산
+training_hours = 0
 
-    # 조건에 해당하지 않는 경우
-    return -1
+if rank == "Private":
+    if year == 0:
+        training_hours = 0
+    elif 1 <= year <= 4:
+        if branch == "ROKA" or branch == "ROKN":
+            training_hours = 32
+        if call_up == "Y" or branch == "ROKAF":
+            training_hours = 28
+    elif 5 <= year <= 6:
+        training_hours = 20
+elif rank == "Officer":
+    if year == 0:
+        training_hours = 0
+    elif 1 <= year <= 6:
+        training_hours = 28
 
-# 훈련 시간 계산
-training_time = calculate_training_time(year, branch, mobilization, status)
-
-# 결과 출력
-print(training_time)
+print(training_hours)
