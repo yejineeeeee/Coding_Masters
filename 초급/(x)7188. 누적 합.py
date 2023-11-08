@@ -1,35 +1,31 @@
-def build_cumulative_tree(arr):
+def build_binary_tree(arr):
     n = len(arr)
-    tree = [0] * (n * 2)  
+    tree = [[0] * n for _ in range(n)]
     
-    # 맨 아래에 입력값
-    for i in range(n):
-        tree[n + i] = arr[i]
-    
-    for i in range(n - 1, 0, -1):
-        tree[i] = tree[i * 2] + tree[i * 2 + 1]
-    
+    def build(node, start, end):
+        if start == end:
+            tree[node][start] = arr[start]
+        else:
+            mid = (start + end) // 2
+            left_node = node * 2
+            right_node = node * 2 + 1
+            build(left_node, start, mid)
+            build(right_node, mid + 1, end)
+            for i in range(start, end + 1):
+                tree[node][i] = tree[left_node][i] + tree[right_node][i]
+
+    build(1, 0, n - 1)
     return tree
 
-def print_cumulative_tree(tree, n):
-    idx = 1  
-    level = 1  
-    count = 0  
-    
-    for i in range(1, n * 2):
-        if count == level:  # 현재 레벨에서 출력한 원소의 개수가 레벨과 같으면 줄바꿈
-            print()
-            level *= 2
-            count = 0
-        
-        print(tree[i], end=' ')
-        count += 1
-        idx += 1
-        if idx > n:  # 출력할 원소의 개수가 입력된 원소의 개수보다 많으면 종료
-            break
+def print_binary_tree(tree, n):
+    for i in range(n):
+        row = " ".join(str(tree[i][j]) for j in range(n) if tree[i][j] != 0)
+        print(row)
 
-n = int(input())  
-elements = list(map(int, input().split()))  
+n = int(input())
+elements = list(map(int, input().split()))
 
-cumulative_tree = build_cumulative_tree(elements)
-print_cumulative_tree(cumulative_tree, n)
+tree = build_binary_tree(elements)
+
+for i in range(n):
+    print_binary_tree(tree, n)

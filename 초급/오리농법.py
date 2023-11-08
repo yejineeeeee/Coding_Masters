@@ -1,52 +1,52 @@
-def min_grass_to_remove(field):
+def count_weeds_removed(field):
     n = len(field)
-    row_grass = [0] * n
-    col_grass = [0] * n
+    weeds_removed = 0
+    
+    # 가로줄을 선택하여 잡초 제거
+    for i in range(n):
+        row = field[i]
+        if 2 in row:
+            continue  # 잡초가 이미 없는 행은 건너뜁니다.
+        count_weeds = row.count(2)
+        weeds_removed += count_weeds
+        for j in range(n):
+            if row[j] == 2:
+                row[j] = 0  # 잡초를 제거합니다.
+    
+    # 세로줄을 선택하여 잡초 제거
+    for j in range(n):
+        col = [field[i][j] for i in range(n)]
+        if 2 in col:
+            continue  # 잡초가 이미 없는 열은 건너뜁니다.
+        count_weeds = col.count(2)
+        weeds_removed += count_weeds
+        for i in range(n):
+            if field[i][j] == 2:
+                field[i][j] = 0  # 잡초를 제거합니다.
+    
+    return weeds_removed
 
-    # 각 행과 열에 작물과 잡초가 얼마나 있는지 계산
+def main():
+    n = int(input())
+    field = []
+    
+    for _ in range(n):
+        row = list(map(int, input().split()))
+        field.append(row)
+    
+    max_weeds_removed = 0
+    
+    # 모든 가능한 가로줄과 세로줄 조합에 대해 최대 잡초 제거 개수를 구합니다.
     for i in range(n):
         for j in range(n):
-            if field[i][j] == 1:
-                row_grass[i] += 1
-                col_grass[j] += 1
+            # 가로줄과 세로줄을 하나씩 선택하여 잡초 제거
+            temp_field = [row[:] for row in field]
+            temp_field[i] = [0] * n
+            for k in range(n):
+                temp_field[k][j] = 0
+            max_weeds_removed = max(max_weeds_removed, count_weeds_removed(temp_field))
+    
+    print(max_weeds_removed)
 
-    # 잡초만 있는 땅의 수 초기화
-    grass_count = 0
-
-    # 행과 열을 선택하면서 잡초를 먹어서 없앰
-    while True:
-        min_row_grass = min(row_grass)
-        min_col_grass = min(col_grass)
-        
-        # 더 이상 선택할 행 또는 열이 없으면 종료
-        if min_row_grass == n and min_col_grass == n:
-            break
-        
-        # 행과 열 중에서 작물이 더 적은 쪽을 선택
-        if min_row_grass <= min_col_grass:
-            min_grass_idx = row_grass.index(min_row_grass)
-            for j in range(n):
-                if field[min_grass_idx][j] == 2:
-                    field[min_grass_idx][j] = 0
-                    grass_count += 1
-            row_grass[min_grass_idx] = n
-        else:
-            min_grass_idx = col_grass.index(min_col_grass)
-            for i in range(n):
-                if field[i][min_grass_idx] == 2:
-                    field[i][min_grass_idx] = 0
-                    grass_count += 1
-            col_grass[min_grass_idx] = n
-
-    return grass_count
-
-n = int(input())
-field = []
-for _ in range(n):
-    row = list(map(int, input().split()))
-    field.append(row)
-
-# 남아있는 잡초만 있는 땅의 수 계산
-result = min_grass_to_remove(field)
-
-print(result)
+if __name__ == "__main__":
+    main()

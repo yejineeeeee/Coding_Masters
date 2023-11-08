@@ -4,8 +4,13 @@ def count_placement_cases(N):
     dp = [[0, 0] for _ in range(N + 1)]
     
     # 초기
+    dp[0][0] = 1
     dp[1][0] = 1  # 1열에 학생이 배치되지 않은 경우의 수
     dp[1][1] = 1  # 1열에 학생이 배치된 경우의 수
+    
+    for _ in range(a-1):
+        n_xx : xx + xo + ox
+        
     
     for i in range(2, N + 1):
         dp[i][0] = dp[i - 1][0] + dp[i - 1][1]  # i열에 학생이 배치되지 않은 경우의 수
