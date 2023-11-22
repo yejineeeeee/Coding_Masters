@@ -1,10 +1,9 @@
-def solve(n):
-    ans = 0
-    while n > 1:
-        ans += n // 2
-        n = (n + 1) // 2
-    return ans
+# 입력값 받기
+N = int(input())
 
-n = int(input())
-print(solve(n))
+# 직선의 최소 개수 계산
+lines = N - 1
+
+# 결과 출력
+print(lines)
 
